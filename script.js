@@ -43,6 +43,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
             mapDiv.appendChild(roomDiv);
         }
         document.getElementById('current-room').innerText = playerPosition;
+        drawConnections();
+    }
+
+    function drawConnections() {
+        const svg = document.getElementById('connections');
+        svg.innerHTML = ''; // Clear previous lines
+        for (let i = 0; i < 20; i++) {
+            const room = document.querySelector(`.room[data-room="${i}"]`);
+            const x1 = room.offsetLeft + room.offsetWidth / 2;
+            const y1 = room.offsetTop + room.offsetHeight / 2;
+            map[i].forEach(adjRoom => {
+                const adjRoomElem = document.querySelector(`.room[data-room="${adjRoom}"]`);
+                const x2 = adjRoomElem.offsetLeft + adjRoomElem.offsetWidth / 2;
+                const y2 = adjRoomElem.offsetTop + adjRoomElem.offsetHeight / 2;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.setAttribute('stroke', 'black');
+                svg.appendChild(line);
+            });
+        }
     }
 
     function movePlayer() {

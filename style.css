@@ -15,14 +15,22 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+#map-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+}
+
 #map {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 20px 0;
-    position: relative;
+    position: absolute;
     width: 300px;
     height: 300px;
+    top: 0;
+    left: 0;
 }
 
 .room {
