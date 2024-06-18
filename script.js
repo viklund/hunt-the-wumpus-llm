@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const map = [
         [1, 4, 7], [0, 2, 9], [1, 3, 11], [2, 4, 13], [0, 3, 5], [4, 6, 14], 
@@ -31,11 +32,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById('warnings').innerText = warnings.join(' ');
     }
 
+    function updateMap() {
+        const mapDiv = document.getElementById('map');
+        mapDiv.innerHTML = '';
+        for (let i = 0; i < 20; i++) {
+            const roomDiv = document.createElement('div');
+            roomDiv.classList.add('room');
+            if (i === playerPosition) roomDiv.classList.add('current');
+            roomDiv.innerText = i;
+            roomDiv.dataset.room = i;
+            mapDiv.appendChild(roomDiv);
+        }
+        document.getElementById('current-room').innerText = playerPosition;
+    }
+
     function movePlayer() {
         const newRoom = prompt("Enter room number to move to (0-19):");
-        if (map[playerPosition].includes(parseInt(newRoom))) {
-            playerPosition = parseInt(newRoom);
+        const newRoomNum = parseInt(newRoom);
+        if (map[playerPosition].includes(newRoomNum)) {
+            playerPosition = newRoomNum;
             checkCurrentRoom();
+            updateMap();
         } else {
             alert("Invalid move. Try again.");
         }
@@ -43,9 +60,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function shootArrow() {
         const targetRoom = prompt("Enter room number to shoot arrow into (0-19):");
-        if (map[playerPosition].includes(parseInt(targetRoom))) {
+        const targetRoomNum = parseInt(targetRoom);
+        if (map[playerPosition].includes(targetRoomNum)) {
             arrows--;
-            if (parseInt(targetRoom) === hazards.wumpus) {
+            if (targetRoomNum === hazards.wumpus) {
                 alert("You killed the Wumpus! You win!");
             } else {
                 alert("Missed! The Wumpus is still alive.");
@@ -76,4 +94,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('shoot').addEventListener('click', shootArrow);
 
     updateWarnings();
+    updateMap();
 });
